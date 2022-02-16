@@ -52,7 +52,7 @@ legend('3', '2.5', '2', '1')
 
 %% plotting for continuous concentration values
 
-N = [0.5:0.01:3]*1e24;
+N = [0.1:0.01:3]*1e24;
 lambda = [1.45:0.01:1.65]*1e-6;
 hw = 1243./(lambda*1e9);
 
@@ -84,7 +84,7 @@ for i=1:length(N)
 
 end
 
-% plot(N,gpeak);
+ plot(N,gpeak);
 
 %% parameter definition from book example for semiconductor laser
 
