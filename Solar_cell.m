@@ -59,7 +59,7 @@ Power = (-I_total.*V);
 
 
 %% Load Line
-R = 30;
+R = 20;
 err = (-V/R-I_total);
 index = find(abs(err)<0.05e-3);
 
@@ -73,4 +73,6 @@ hold on
 line([V(1), V(end)], [0, 0], 'Color', [0,0,0],'LineStyle','-.','linewidth',2);
 plot(V,(-V/R)*1e3);
 plot(V(index),I_total(index)*1e3,'ro')
-Iout = I_total(index)*1e3
+Iout = I_total(index);
+Vout = V(index);
+Pout = (-Iout)*Vout;
