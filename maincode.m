@@ -12,7 +12,8 @@ Irr = 500; %Irradiance(Wm-2)
 
 %% Laser
 I = -Iout;
-[lambda_in,Pout_laser] = laser_func(I)
+[lambda_in,Intensity] = laser_func(I);
 
 %% Photodetector
-[Iout_pd] = photodetector_func(lambda_in,Pout_laser,Temp)
+%[Iout_pd] = photodetector_func(lambda_in,Pout_laser,Temp)
+[Iout_pd] = pin_photodetector_func(lambda_in,Intensity,Temp);

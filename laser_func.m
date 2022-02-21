@@ -1,5 +1,10 @@
-function [lambda_in,Pout_laser] = laser_func(I)
+function [lambda_in,Intensity_out] = laser_func(I)
 % This code is intended to model a semiconductor laser
+
+%% This code is intended to model a semiconductor laser
+clc
+clear all
+close all
 
 %% parameter definition
 
@@ -90,10 +95,11 @@ plot(N,gpeak);
 xlabel('N')
 ylabel('gpeak')
 title('geak vs conc.')
+
 %% parameter definition from book example for semiconductor laser
 
 L = 100e-6;
-W = 3e-6;
+W = 10e-6;
 d = 0.15e-6;
 gamma = 2500; %loss coefficient per meter
 nr = 3.491; %In0.6 Ga0.4 As0.85 P0.15 http://www.ioffe.ru/SVA/NSM/Semicond/GaInAsP/optic.html
@@ -144,9 +150,10 @@ tau_ph = nr/(c*alpha_t);
 
 %% Output Power
 
-%I = 7.4e-3; %from solar cell
+I = 8.35e-3; %from solar cell
 %lambda_in = 1500e-9; %from figure 4.48
 Pout_slope = (h*c*c*tau_ph*(1-R)/(2*e*nr*lambda_in*L));
-Pout_laser = Pout_slope*(I-Ith);
+Pout = Pout_slope*(I-Ith);
+Intensity_out = Pout/(W*L);
 
 end
