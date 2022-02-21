@@ -150,22 +150,3 @@ Pout_slope = (h*c*c*tau_ph*(1-R)/(2*e*nr*lambda_in*L));
 Pout_laser = Pout_slope*(I-Ith);
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

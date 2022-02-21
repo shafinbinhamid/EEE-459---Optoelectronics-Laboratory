@@ -28,7 +28,7 @@ lambda_in = (1.57e-6)*1e9; % from laser (in nm)
 Pout = 0.0012;% from laser (in W)
 
 err = lambda_in - lambda_data;
-index = find(err == min(abs(err)));
+index = find(abs(err) == min(abs(err)));
 R = resp_data(index);
 
 Iph = R*Pout;
@@ -40,10 +40,16 @@ Vout = Iph*RL;
 
 %% Calculation of current, power
 Vr = 1.5;
-V = -3:0.01:0.35;
+V = -2:0.01:0.35;
 I_total = -Iph + I0.*(exp(e*V/(n*kb*T))-1);
 Power = (-I_total.*V);
-index = find(V == -Vr);
+%index = find(V == -Vr);
+
+%% Load Line
+R = 20;
+err = (-(V+Vr)/R-I_total);
+index = find(abs(err)<0.02e-2);
+
 %% I-V Curve Plot
 figure
 plot(V,I_total*1e3,'Linewidth',2)
@@ -52,4 +58,7 @@ ylabel('Current,I_{total}(mA)')
 grid on;
 hold on
 line([V(1), V(end)], [0, 0], 'Color', [0,0,0],'LineStyle','-.','linewidth',2);
+plot(V,-(V+Vr)/R*1e3);
 plot(V(index),I_total(index)*1e3,'ro')
+
+Iout = I_total(index) % in A
