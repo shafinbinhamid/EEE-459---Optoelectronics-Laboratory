@@ -1,7 +1,5 @@
-%% This code is intended to model a semiconductor laser
-clc
-clear all
-close all
+function [lambda_in,Pout_laser] = laser_func(I)
+% This code is intended to model a semiconductor laser
 
 %% parameter definition
 
@@ -44,12 +42,15 @@ for j=1:length(lambda)
     end
 end
 
+figure()
 for i=1:length(N)
     plot(lambda, gm(:,i));
     hold on
 end
+xlabel('Lambda(um)')
+ylabel('gm')
 legend('3', '2.5', '2', '1')
-
+title('gm vs lambda for differnet conc.')
 %% plotting for continuous concentration values
 
 N = [0.1:0.01:3]*1e24;
@@ -84,8 +85,11 @@ for i=1:length(N)
 
 end
 
- plot(N,gpeak);
-
+figure()
+plot(N,gpeak);
+xlabel('N')
+ylabel('gpeak')
+title('geak vs conc.')
 %% parameter definition from book example for semiconductor laser
 
 L = 100e-6;
@@ -114,14 +118,16 @@ index = find(abs(err)<tolerance);
 nth = N(index); %threshold electron conc
 
 %% plot allowed modes on the same plot as optical gain vs lambda
-
+figure()
 plot(lambda, gm(index,:))
-max_index = find( gm(index,:) == max(gm(index,:)) );
-lambda_in = lambda(max_index)
 %lambda(find(max(gm(index,:))))
 hold on
 line([lambda(1) lambda(end)], [gth gth], 'Color', [0 0 0], 'LineWidth', 2);
-
+xlabel('Lambda(um)')
+ylabel('gm')
+title('gm vs lambda art threshold electron conc.')
+max_index = find( gm(index,:) == max(gm(index,:)) );
+lambda_in = lambda(max_index);
 
 %% radiative lifetime calculation
 
@@ -138,10 +144,12 @@ tau_ph = nr/(c*alpha_t);
 
 %% Output Power
 
-I = 8.35e-3; %from solar cell
+%I = 7.4e-3; %from solar cell
 %lambda_in = 1500e-9; %from figure 4.48
 Pout_slope = (h*c*c*tau_ph*(1-R)/(2*e*nr*lambda_in*L));
-Pout = Pout_slope*(I-Ith);
+Pout_laser = Pout_slope*(I-Ith);
+
+end
 
 
 

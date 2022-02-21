@@ -1,4 +1,5 @@
-function Iout = solar(Irr,Temp)
+function [Iout,Vout,Pout] = solar_func(Irr,Temp)
+
 e = 1.6e-19; 
 kb = 1.38e-23;
 
@@ -28,12 +29,12 @@ end
 Power = (-I_total.*V);
 
 %% Load Line
-R = 30;
+R = 20;
 err = (-V/R-I_total);
 index = find(abs(err)<0.05e-3);
 
 %% I-V Curve Plot
-
+figure
 plot(V,I_total*1e3,'Linewidth',2)
 xlabel('Voltage, V(V)')
 ylabel('Current,I_{total}(mA)')
@@ -42,8 +43,9 @@ hold on
 line([V(1), V(end)], [0, 0], 'Color', [0,0,0],'LineStyle','-.','linewidth',2);
 plot(V,(-V/R)*1e3);
 plot(V(index),I_total(index)*1e3,'ro')
-
-
-Iout  = I_total(index)*1e3; % in mA
-
+title('I-V characteristics of Solar Cell')
+hold off
+Iout  = I_total(index); % in A
+Vout = V(index);
+Pout = (-Iout)*Vout;
 end
