@@ -22,6 +22,7 @@ Eg = 0.784; %In0.53Ga0.47As
 dia = 0.12e-3;
 Area = (pi/4)*dia^2;
 h = 6.626e-34;
+c = 3e8;
 %% Temperature Effect
 T_new = 290;
 I0_old = I0;
@@ -34,11 +35,18 @@ Intensity = 8.2198e5;
 Pout = Intensity*Area;
 %Pout = 0.0012;% from laser (in W)
 
-err = lambda_in - lambda_data;
-index = find(abs(err) == min(abs(err)));
-R = resp_data(index)
-
-Iph = R*Pout
+Tr = 1; %perfect AR coating(assume)
+ni = 1;% internal quantum efficiency(assume)
+alpha = 4e5; %absorption coeff(in m^-1)
+freq = c/(lambda_in*1e-9);
+W = 4e-6; % in m
+Iph = e*ni*Tr*Pout*(1-exp(-alpha*W))
+%% From datasheet
+% W = (-1/alpha)*log(1-(R*h*freq)/(e*ni*Tr))
+% err = lambda_in - lambda_data;
+% index = find(abs(err) == min(abs(err)));
+% R = resp_data(index)
+%Iph = R*Pout
 
 %% Output voltage
 RL = 1000;
@@ -53,8 +61,8 @@ Power = (-I_total.*V);
 %index = find(V == -Vr);
 
 %% Load Line
-R = 20;
-err = (-(V+Vr)/R-I_total);
+RL = 20;
+err = (-(V+Vr)/RL-I_total);
 index = find(abs(err)<0.025e-2);
 
 %% I-V Curve Plot
@@ -65,15 +73,15 @@ ylabel('Current,I_{total}(mA)')
 grid on;
 hold on
 line([V(1), V(end)], [0, 0], 'Color', [0,0,0],'LineStyle','-.','linewidth',2);
-plot(V,-(V+Vr)/R*1e3);
+plot(V,-(V+Vr)/RL*1e3);
 plot(V(index),I_total(index)*1e3,'ro')
 
 Iout = I_total(index) % in A
 
-%% Calculation of W for PIN Photodiode
-
-Tr = 1; %perfect AR coating
-ni = 0.75;% internal quantum efficiency
-alpha = 4e5; %absorption coeff(in m^-1)
-R_new = e*ni*Tr*(1-exp(-alpha*W))/(h*lambda
-W = (-1/alpha)*log(1-(R*h*lambda_in)/(e*ni*Tr))
+% %% Calculation of W for PIN Photodiode
+% 
+% Tr = 1; %perfect AR coating(assume)
+% ni = 1;% internal quantum efficiency(assume)
+% alpha = 4e5; %absorption coeff(in m^-1)
+% freq = c/(lambda_in*1e-9);
+% W = (-1/alpha)*log(1-(R*h*freq)/(e*ni*Tr))
