@@ -73,9 +73,8 @@ Iout = I_total(index) % in A
 
 %% Calculation of W for PIN Photodiode
 
-Tr = 1; %perfect AR coating
-ni = 1;% internal quantum efficiency
+Tr = 1; %perfect AR coating(assume)
+ni = 1;% internal quantum efficiency(assume)
 alpha = 4e5; %absorption coeff(in m^-1)
-freq = c/(lambda_in*1e-9)
-R
+freq = c/(lambda_in*1e-9);
 W = (-1/alpha)*log(1-(R*h*freq)/(e*ni*Tr))
