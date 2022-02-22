@@ -59,7 +59,7 @@ Power = (-I_total.*V);
 
 
 %% Load Line
-R = 20;
+R = 13.9476;
 err = (-V/R-I_total);
 index = find(abs(err)<0.05e-3);
 
@@ -76,3 +76,11 @@ plot(V(index),I_total(index)*1e3,'ro')
 Iout = I_total(index);
 Vout = V(index);
 Pout = (-Iout)*Vout;
+
+%% Fill Factor calculation
+
+Isc = Iph;
+Pmax = max(Power);
+index = find(min(abs(I_total)) == abs(I_total))
+Voc = V(index);
+FF = Pmax/(Isc*Voc)
