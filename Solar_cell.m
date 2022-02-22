@@ -64,7 +64,7 @@ err = (-V/R-I_total);
 index = find(abs(err)<0.05e-3);
 
 %% I-V Curve Plot
-
+figure
 plot(V,I_total*1e3,'Linewidth',2)
 xlabel('Voltage, V(V)')
 ylabel('Current,I_{total}(mA)')
@@ -77,6 +77,10 @@ Iout = I_total(index);
 Vout = V(index);
 Pout = (-Iout)*Vout;
 
+figure
+plot(V,Power)
+xlabel('Voltage, V(V)')
+ylabel('Power(W)')
 %% Fill Factor calculation
 
 Isc = Iph;
