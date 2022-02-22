@@ -66,21 +66,24 @@ index = find(abs(err) == min(abs(err)));
 %% I-V Curve Plot
 figure
 plot(V,I_total*1e3,'Linewidth',2)
-xlabel('Voltage, V(V)')
-ylabel('Current,I_{total}(mA)')
+xlabel('Voltage, V(V)', 'FontWeight','bold')
+ylabel('Current,I_{total}(mA)', 'FontWeight','bold')
 grid on;
 hold on
-line([V(1), V(end)], [0, 0], 'Color', [0,0,0],'LineStyle','-.','linewidth',2);
+%line([V(1), V(end)], [0, 0], 'Color', [0,0,0],'LineStyle','-.','linewidth',2);
 plot(V,(-V/R)*1e3);
 plot(V(index),I_total(index)*1e3,'ro')
-Iout = I_total(index);
-Vout = V(index);
-Pout = (-Iout)*Vout;
+title('I-V Characteristics of Solar Cell with Load Line')
+legend({'Photodiode I-V', 'Load Line', 'Operating Point'}, 'FontWeight','bold')
+% Iout = I_total(index);
+% Vout = V(index);
+% Pout = (-Iout)*Vout;
 
-figure
-plot(V,Power)
-xlabel('Voltage, V(V)')
-ylabel('Power(W)')
+% figure
+% plot(V,Power)
+% xlabel('Voltage, V(V)')
+% ylabel('Power(W)')
+
 %% Fill Factor calculation
 
 Isc = Iph;
