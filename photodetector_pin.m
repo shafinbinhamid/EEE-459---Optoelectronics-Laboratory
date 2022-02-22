@@ -38,15 +38,17 @@ freq = c/(lambda_in*1e-9);
 
 %% Finding Minimum W
 
-Width = [1.5:0.1:3]*1e-6;
+Width = [1.5:0.1:10]*1e-6;
 Iph_W = zeros(1,length(Width));
 R_W = zeros(1,length(Width));
 for i=1:length(Width)
 Iph(i) = e*ni*Tr*Pout*(1-exp(-alpha*Width(i)))/(h*freq);
 R_W(i) = Iph(i)/Pout;
 end
-
-Rmin = 0.7;
+plot(Width,R_W)
+xlabel('Width(m)')
+ylabel('Responsivity(A/W)')
+Rmin = 0.7; %% from the chart of the book (as we operate near the peak)
 err = R_W-Rmin; % At peak lambda Rmin = 0.7
 index = find(abs(err) == min(abs(err)));
 W_min = Width(index);

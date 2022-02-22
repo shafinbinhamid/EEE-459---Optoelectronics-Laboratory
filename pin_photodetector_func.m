@@ -43,6 +43,7 @@ Iph(i) = e*ni*Tr*Pout*(1-exp(-alpha*Width(i)))/(h*freq);
 R_W(i) = Iph(i)/Pout;
 end
 
+
 Rmin = 0.7;
 err = R_W-Rmin; % At peak lambda Rmin = 0.7
 index = find(abs(err) == min(abs(err)));

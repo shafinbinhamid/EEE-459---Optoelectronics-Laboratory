@@ -44,7 +44,7 @@ for j=1:length(lambda)
     end
 end
 
-fig
+figure()
 for i=1:length(N)
     plot(lambda, gm(:,i));
     hold on

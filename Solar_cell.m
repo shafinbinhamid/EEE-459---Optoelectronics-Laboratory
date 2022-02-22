@@ -22,30 +22,30 @@ T_new = 290;
 I0_old = I0;
 I0=((T_new^3)*exp(Eg./(kb*T_new/e)))*I0_old/((T^3)*exp(Eg/(kb*T/e))); %reverse saturation current(A)
 
-%% Calculation of current, power(ignoring Rs and Rp)
-
-V = 0:0.0001:0.35;
-I_total = -Iph + I0.*(exp(e*V/(n*kb*T))-1);
-Power = (-I_total.*V);
-
-
-%% Calculation of current, power(ignoring Rs, not Rp)
-
-V=0:0.001:0.4;
-I_total = -Iph + I0.*(exp(e*V/(n*kb*T))-1) + V/Rp;
-Power = (-I_total.*V);
+% %% Calculation of current, power(ignoring Rs and Rp)
+% 
+% V = 0:0.0001:0.35;
+% I_total = -Iph + I0.*(exp(e*V/(n*kb*T))-1);
+% Power = (-I_total.*V);
 
 
-%% Calculation of current, power(ignoring Rp, not Rs)
-
-V=0:0.001:0.4;
-I_total = zeros(1,length(V));
-for i = 1:length(V)
-    fcn = @(I) -I - Iph + I0*(exp(e*(V(i)-I*Rs)/(n*kb*T))-1);
-    I = fzero(fcn,Iph);
-    I_total(i)= I;
-end
-Power = (-I_total.*V);
+% %% Calculation of current, power(ignoring Rs, not Rp)
+% 
+% V=0:0.001:0.4;
+% I_total = -Iph + I0.*(exp(e*V/(n*kb*T))-1) + V/Rp;
+% Power = (-I_total.*V);
+% 
+% 
+% %% Calculation of current, power(ignoring Rp, not Rs)
+% 
+% V=0:0.001:0.4;
+% I_total = zeros(1,length(V));
+% for i = 1:length(V)
+%     fcn = @(I) -I - Iph + I0*(exp(e*(V(i)-I*Rs)/(n*kb*T))-1);
+%     I = fzero(fcn,Iph);
+%     I_total(i)= I;
+% end
+% Power = (-I_total.*V);
 
 %% Calculation of current, power(considering Rp and Rs)
 V=0:0.001:0.4;
