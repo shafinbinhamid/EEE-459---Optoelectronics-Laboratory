@@ -24,9 +24,12 @@ I0=((T_new^3)*exp(Eg./(kb*T_new/e)))*I0_old/((T^3)*exp(Eg/(kb*T/e))); %reverse s
 %% Pout calculation
 lambda_in = (1.57e-6)*1e9; % from laser (in nm)
 Intensity = 6.6941e08; % from laser(in W/m^2)
-dia = 0.4e-5; % in meter
+dia = 0.4e-6; % in meter
 Area = (pi/4)*dia^2;
-Pout = Intensity*Area;
+a = 10^(21/10); %considering very strong atmospheric turbulence
+dist = 5e-2;
+Intensity_pd = Intensity*exp(-a*dist);
+Pout = Intensity_pd*Area;
 freq = c/(lambda_in*1e-9);
 
 %% Finding Minimum W
@@ -60,7 +63,7 @@ Iph_max = e*ni*Tr*Pout/(h*freq);
 
 %% Calculation of current, power
 Vr = 1.5;
-V = -2:0.0001:0.35;
+V = -2:0.0001:0;
 I_total = -Iph + I0.*(exp(e*V/(n*kb*T))-1);
 Power = (-I_total.*V);
 %index = find(V == -Vr);
@@ -72,14 +75,14 @@ index = find(abs(err) == min(abs(err)));
 
 %% I-V Curve Plot
 figure
-plot(V,I_total*1e3,'Linewidth',2)
+plot(V,I_total*1e6,'Linewidth',2)
 xlabel('Voltage, V(V)')
-ylabel('Current,I_{total}(mA)')
+ylabel('Current,I_{total}(uA)')
 grid on;
 hold on
 line([V(1), V(end)], [0, 0], 'Color', [0,0,0],'LineStyle','-.','linewidth',2);
-plot(V,-((V+Vr)/RL)*1e3);
-plot(V(index),I_total(index)*1e3,'ro')
+plot(V,-((V+Vr)/RL)*1e6);
+plot(V(index),I_total(index)*1e6,'ro')
 title('I-V characteristics of Photodetector')
 Iout = I_total(index) % in A
 Vout = V(index)
@@ -91,3 +94,10 @@ Vout = V(index)
 % alpha = 4e5; %absorption coeff(in m^-1)
 % freq = c/(lambda_in*1e-9);
 % W = (-1/alpha)*log(1-(R*h*freq)/(e*ni*Tr))
+
+%% SNR calculation
+B = 1e6; %in Hz
+signal_power = (Iph^2)*RL;
+noise_power = [2*e*(I0+Iph)*B]*RL+4*kb*T*B;
+SNR = signal_power/noise_power
+SNR_db = 10*log10(SNR)
