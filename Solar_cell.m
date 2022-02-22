@@ -48,7 +48,7 @@ I0=((T_new^3)*exp(Eg./(kb*T_new/e)))*I0_old/((T^3)*exp(Eg/(kb*T/e))); %reverse s
 % Power = (-I_total.*V);
 
 %% Calculation of current, power(considering Rp and Rs)
-V=0:0.001:0.4;
+V=0:0.0001:0.4;
 I_total = zeros(1,length(V));
 for i = 1:length(V)
     fcn = @(I) -I - Iph + I0*(exp(e*(V(i)-I*Rs)/(n*kb*T))-1) + (V(i)-I*Rs)/Rp;
@@ -61,7 +61,7 @@ Power = (-I_total.*V);
 %% Load Line
 R = 13.9476;
 err = (-V/R-I_total);
-index = find(abs(err)<0.05e-3);
+index = find(abs(err) == min(abs(err)));
 
 %% I-V Curve Plot
 figure
@@ -88,3 +88,10 @@ Pmax = max(Power);
 index = find(min(abs(I_total)) == abs(I_total))
 Voc = V(index);
 FF = Pmax/(Isc*Voc)
+
+%% Efficiency
+L = 156e-3;
+W = 156e-3;
+Area = L*W;
+n = Power./(Area*I_total);
+max_n = max(n)
